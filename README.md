@@ -46,13 +46,7 @@ Web Worker).
 MkDocs
 باید پیش از
 Vite
-اجرا شود
-(Vite
-باندل خود را داخل پوشه‌ی سایتی که
-MkDocs
-می‌سازد قرار می‌دهد — به
-[`Makefile`](Makefile)
-نگاه کنید).
+اجرا شود.
 
 ```sh
 python -m venv course/.venv
