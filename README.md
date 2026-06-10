@@ -10,8 +10,8 @@ Stockfish
 ## معماری
 
  سایت
-static
-، نرم افزار
+static،
+نرم‌افزار
 [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
 محتوای فارسی راست‌به‌چپ را در زمان ساخت به
 HTML
@@ -64,12 +64,15 @@ npx vitest run
 
 ## مجوز
 
-GPL-3.0 — chessground
+این اثر تحت مجوز
+GPL-3.0
+منتشر می‌شود — از آنجا که
+chessground
 تحت
 GPL
-است، بنابراین کل اثر ترکیبی هم
+است، کل اثر ترکیبی هم
 GPL
-است
+می‌شود
 (فایل
 [`LICENSE`](LICENSE)
 را ببینید). دارایی‌های صوتی مجوز جداگانه دارند؛
