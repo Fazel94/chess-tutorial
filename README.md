@@ -1,49 +1,51 @@
 # Chess Opening Tutorial (آموزش گشایش شطرنج)
 
-Interactive Farsi chess-opening course — read the four opening principles,
-watch them in annotated games, then practise real opening lines move by move
-against an auto-replying book and Stockfish. Live at <https://chess.nlogn.ir>.
+دوره‌ی تعاملی گشایش شطرنج به زبان فارسی — چهار اصل گشایش را بخوانید، آن‌ها را در
+بازی‌های شرح‌داده‌شده ببینید، سپس خط‌های واقعی گشایش را حرکت‌به‌حرکت در برابر
+پاسخ خودکار کتاب و موتور Stockfish تمرین کنید. نسخه‌ی زنده: <https://chess.nlogn.ir>.
 
-## Architecture
+## معماری
 
-Static site, no SPA, no router. [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
-renders RTL Farsi markdown into HTML at build time. Each `{{ board(...) }}` /
-`{{ viewer(...) }}` / `{{ practice_opening(...) }}` macro in `course/macros.py`
-emits a `<div class="chess-widget" data-mode="...">` placeholder. A Vite-built
-bundle from `src-widgets/` hydrates those placeholders on the client into
-interactive boards using [chessground](https://github.com/lichess-org/chessground),
-[chess.js](https://github.com/jhlywa/chess.js), and Stockfish 16 (NNUE, WASM,
-single-threaded Web Worker). URLs are real files — back/forward, deep links,
-and SEO all work without JS state.
+سایت ایستا، بدون SPA و بدون مسیریاب. [MkDocs Material](https://squidfunk.github.io/mkdocs-material/)
+محتوای فارسی راست‌به‌چپ را در زمان ساخت به HTML تبدیل می‌کند. هر ماکروی
+`{{ board(...) }}` / `{{ viewer(...) }}` / `{{ practice_opening(...) }}` در
+`course/macros.py` یک placeholder به‌شکل `<div class="chess-widget" data-mode="...">`
+تولید می‌کند. سپس باندل ساخته‌شده با Vite از `src-widgets/` در سمت کاربر این
+placeholderها را به صفحه‌های تعاملی تبدیل می‌کند؛ با
+[chessground](https://github.com/lichess-org/chessground)،
+[chess.js](https://github.com/jhlywa/chess.js) و Stockfish 16 (NNUE، WASM،
+تک‌رشته‌ای در Web Worker). آدرس‌ها فایل‌های واقعی‌اند — دکمه‌های بازگشت/جلو،
+لینک مستقیم و سئو همگی بدون نیاز به وضعیت سمت کلاینت کار می‌کنند.
 
-## Build
+## ساخت
 
-MkDocs must run before Vite (Vite drops its bundle into the site dir MkDocs
-creates — see the [`Makefile`](Makefile)).
+MkDocs باید پیش از Vite اجرا شود (Vite باندل خود را داخل پوشه‌ی سایتی که MkDocs
+می‌سازد قرار می‌دهد — به [`Makefile`](Makefile) نگاه کنید).
 
 ```sh
 python -m venv course/.venv
 course/.venv/bin/pip install -r course/requirements.txt
 npm install
-make build      # MkDocs → Vite
-make serve      # full build → http://localhost:8000
+make build      # MkDocs ← Vite
+make serve      # ساخت کامل ← http://localhost:8000
 ```
 
-## Tests
+## آزمون‌ها
 
 ```sh
 npx vitest run
 ```
 
-## License
+## مجوز
 
-GPL-3.0 — chessground is GPL, so the combined work is GPL (see [`LICENSE`](LICENSE)).
-Sound assets are licensed separately; see [`SOUNDS-LICENSE.md`](SOUNDS-LICENSE.md).
+GPL-3.0 — chessground تحت GPL است، بنابراین کل اثر ترکیبی هم GPL است
+(فایل [`LICENSE`](LICENSE) را ببینید). دارایی‌های صوتی مجوز جداگانه دارند؛
+به [`SOUNDS-LICENSE.md`](SOUNDS-LICENSE.md) مراجعه کنید.
 
-## Credits
+## سپاس‌گزاری
 
-Annotated game lines are adapted — ideas only, with original Farsi commentary —
-from GM Mykhaylo Oleksiyenko's *Opening Compass*. Built with
-[lichess-org/chessground](https://github.com/lichess-org/chessground),
-[chess.js](https://github.com/jhlywa/chess.js), and
+خط‌های بازی‌های شرح‌داده‌شده — تنها از نظر ایده، با شرح فارسی اصیل — از کتاب
+*Opening Compass* اثر استاد بزرگ میخایلو اولکسیینکو اقتباس شده‌اند. ساخته‌شده با
+[lichess-org/chessground](https://github.com/lichess-org/chessground)،
+[chess.js](https://github.com/jhlywa/chess.js) و
 [Stockfish](https://stockfishchess.org/).

@@ -82,24 +82,24 @@ Pending work lives above `Completed milestones`. Historical done items stay at t
 - [ ] **Quick restart on completion screen** — the "تلاش دوباره" button disappears when the line is done. Keep it (or add a "بدون اشتباه امتحان کن" variant) on the completion screen so learners can try for a clean run.
 
 #### Practice content — lines needed
-- [ ] **Italian as Black** (`play_as='black'`, same `italian-mainline.pgn`) — flip the board; learner plays Black's book replies while White auto-plays. Adds the same line from the opponent side; no new PGN needed, just a second `{{ practice_opening(... play_as='black') }}` block on the practice page.
-- [ ] **Ruy Lopez main line as White** — 1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 — the other primary White weapon after 1.e4; pairs naturally with the Italian chapter. Needs a new annotated PGN (`practice/pgn/ruy-lopez-mainline.pgn`) with Farsi per-move comments.
-- [ ] **Italian — handling Bb4+ check** — the Italian mainline currently ends at 7.Nc3 accepting the pin; add a second practice line showing 7.Bd2 (blocking with the bishop) so learners see both main responses. Short addition to the practice page.
-- [ ] **Common opponent deviation — 3...Bc5 skipped** — in the Italian, if Black plays 3...Nf6 (two knights) instead of 3...Bc5, the line diverges immediately. A short practice line showing the correct response (4.Ng5 or 4.d4) teaches learners not to get lost when the book deviates.
-- [ ] **Sicilian: basic structure** — 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 — the most popular Black response to 1.e4; Persian beginners will face it constantly as White. Even a 5-move orientation line as Black is more useful than none.
+- [x] **Italian as Black** (`play_as='black'`, same `italian-mainline.pgn`) — flip the board; learner plays Black's book replies while White auto-plays. Adds the same line from the opponent side; no new PGN needed, just a second `{{ practice_opening(... play_as='black') }}` block on the practice page.
+- [x] **Ruy Lopez main line as White** — 1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3 — the other primary White weapon after 1.e4; pairs naturally with the Italian chapter. Needs a new annotated PGN (`practice/pgn/ruy-lopez-mainline.pgn`) with Farsi per-move comments.
+- [x] **Italian — handling Bb4+ check** — added `practice/pgn/italian-bd2.pgn` showing 7.Bd2 (blocking with the bishop) alongside the 7.Nc3 mainline.
+- [x] **Common opponent deviation — 3...Bc5 skipped** — added `practice/pgn/italian-two-knights.pgn` handling 3...Nf6 with the principled 4.d4.
+- [x] **Sicilian: basic structure** — 1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e6 — added as `practice/pgn/sicilian-basic.pgn`, played as Black.
 
 #### Practice page — navigation and learning path
-- [ ] **Opening selector** — the practice page currently shows one hard-coded block. Replace it with a card-grid of available lines (opening name, color, length, difficulty badge). Tapping a card loads that line's widget. Macro approach: `{{ practice_grid() }}` that renders cards from a YAML data file.
-- [ ] **Embed practice at the end of ch7** — ch7 (Giuoco Piano) ends with "در فصل بعد..." but offers no practice widget. Add `{{ practice_opening(...) }}` at the bottom of `07-giuoco-piano.md` so learners can drill the line immediately after reading about it. This is the highest-impact content change: learners currently have to navigate away.
-- [ ] **Chapter-end practice links** — chs 1–6 cover principles but don't link to a practice exercise for those principles. Add a "تمرین این اصل →" callout at the bottom of each principle chapter pointing to the relevant practice line or puzzle.
-- [ ] **Learning path overview** — add a visual progress map to the practice page (or to index.md): read chs 1–4 → study Opera/Giuoco → practice Italian → play vs engine. Orienting learners who don't know what to do next is the #1 drop-off point for beginners.
+- [x] **Opening selector** — implemented as a static card-grid of in-page links on the practice page (six lines: opening name, color, ply count); no `practice_grid()` YAML macro — six lines didn't justify the data-file indirection. Anchors become render targets if a macro is wanted later.
+- [x] **Embed practice at the end of ch7** — `{{ practice_opening(...) }}` for the Italian mainline now mounts at the bottom of `07-giuoco-piano.md`, with a "خط‌های بیشتر" link to /practice/.
+- [x] **Chapter-end practice links** — "تمرین این اصل ←" callout added to chs 1–4 pointing to the practice page. (Ch5 already links puzzles inline; ch6 is a game showcase; ch7 has the embedded widget.)
+- [x] **Learning path overview** — added to `index.md` (بخوانید → ببینید → تمرین کنید → بازی کنید).
 
 #### Persian learner pedagogy
-- [ ] **Chess terms glossary page** (`course/docs/glossary.md`, linked from nav and from first use of each term inline) — تمپو، سنجاق، آچمز، دام، سیخ، قلعه‌بندی، کنترل مرکز، توسعه، اتصال رخ، پیاده‌ی گذشته، فیل بد — each with a one-sentence Farsi definition and a FEN example board. Currently terms are linked to Wikipedia individually; a single coherent glossary is far more learner-friendly.
+- [x] **Chess terms glossary page** (`course/docs/glossary.md`, in nav) — ten terms (کنترل مرکز، توسعه، قلعه‌بندی، اتصال رخ‌ها، تمپو، آچمزی، سیخ، دام، پیاده گذشته، فیل بد), each with an original Farsi definition and a FEN board or chapter link. Inline retro-fit of glossary links into chapters deferred (existing Wikipedia links kept).
 - [ ] **Principle cheat-sheet during practice** — show the 4 principles (one line each) in a collapsed/expandable sidebar or tooltip during the practice widget so learners can cross-reference while playing. Avoids tab-switching to ch1–4.
 - [ ] **Principle tagging in practice PGNs** — annotate each practice move comment with the principle it demonstrates using a conventional prefix: `{[اصل ۲: توسعه] اسب به f3 — پیاده e5 را زیر فشار می‌گیرد}`. The widget can then badge each move as it plays, reinforcing the connection between principle and move.
 - [ ] **Farsi opening names** — the practice page uses "بازی ایتالیایی" (Italian Game) which is good. Ensure all opening names across the site use the correct established Farsi names (e.g. "دفاع سیسیلی"، "گشایش اسپانیایی"، "گامبی وزیر") and are consistent between the nav, practice cards, and tutorial chapter headings.
-- [ ] **"Opening line library (a few common openings bundled: Italian, Sicilian, Queen's Gambit, etc.)"** — superseded by the opening selector above; retire in favour of the concrete lines listed above.
+- [x] **"Opening line library"** — retired as superseded by the card-grid opening selector and the concrete lines above (Italian ×3, Ruy Lopez, Sicilian).
 
 ### Analysis
 - [ ] MVP: Free move entry for both sides, no opponent, position history with undo.
@@ -150,6 +150,7 @@ Per-game game/chapter mapping is documented in `pgns/README.md`.
 - [ ] Review license/terms-of-use for any Chessable-derived material before publishing (see `pgns/README.md` license note).
 - [x] Deployment: static S3 hosting on Sotoon (`s3://fazelblog`, `https://chess.nlogn.ir`), four-pass cache strategy via `make deploy`.
 - [x] Hosting model: fully static — MkDocs build → Vite bundle → s3cmd sync.
+- [x] Published public GitHub mirror (fresh history, pgns/ excluded; full history backed up as git bundle + gitea) — `https://github.com/Fazel94/chess-tutorial`, exported via `tools/github-mirror.sh`.
 
 ## Research / tooling
 
