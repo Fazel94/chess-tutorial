@@ -1,0 +1,171 @@
+/*
+ * CSS overrides for @lichess-org/pgn-viewer inside this Material Slate site.
+ *
+ * Strategy:
+ *   - Import pgn-viewer SCSS via Sass (chessground CSS is already imported
+ *     by widgets.css; the pgn-viewer adds only its own layout + controls).
+ *   - Override CSS custom properties to match Material Slate dark palette.
+ *   - Suppress the LPV box-shadow (Material's card chrome owns that).
+ *   - Ensure move-list stays LTR on this RTL page.
+ */
+
+// pgn-viewer SCSS main entry (imports controls, layout, side, font-embed, etc.)
+@use "@lichess-org/pgn-viewer/scss/lichess-pgn-viewer.lib" as *;
+
+/* ── Palette: match Material Slate dark (indigo/pink) ───────────────────── */
+.lpv {
+  --c-lpv-bg:           var(--md-code-bg-color, hsl(232, 15%, 21%));
+  --c-lpv-bg-movelist:  var(--md-code-bg-color, hsl(232, 15%, 21%));
+  --c-lpv-bg-controls:  var(--md-code-bg-color, hsl(232, 15%, 21%));
+  --c-lpv-bg-player:    var(--md-code-bg-color, hsl(232, 15%, 21%));
+  --c-lpv-bg-variation: hsl(232, 15%, 18%);
+  --c-lpv-bg-pane:      hsl(232, 15%, 25%);
+  --c-lpv-pgn-text:     hsl(232, 15%, 20%);
+
+  --c-lpv-font:         var(--md-default-fg-color--light, #bbc);
+  --c-lpv-font-shy:     var(--md-default-fg-color--lighter, #778);
+  --c-lpv-font-bg:      hsl(232, 10%, 30%);
+  --c-lpv-past-moves:   var(--md-default-fg-color--light, #bbc);
+
+  /* Material indigo accent → lpv accent */
+  --c-lpv-accent:       var(--md-accent-fg-color, #7986cb);
+  --c-lpv-accent-over:  #fff;
+  --c-lpv-current-move: color-mix(in srgb, var(--md-accent-fg-color, #7986cb) 55%, hsl(232, 15%, 21%));
+  --c-lpv-move-hover:   color-mix(in srgb, var(--md-accent-fg-color, #7986cb) 25%, hsl(232, 15%, 21%));
+  --c-lpv-fbt-hover:    color-mix(in srgb, var(--md-accent-fg-color, #7986cb) 75%, hsl(232, 15%, 21%));
+
+  --c-lpv-border:       var(--md-default-fg-color--lightest, hsl(232, 10%, 28%));
+  --c-lpv-side-border:  hsl(232, 10%, 24%);
+
+  /* Remove LPV's default box-shadow; Material card chrome owns elevation. */
+  box-shadow: none;
+  border: 1px solid var(--md-default-fg-color--lightest, hsl(232, 10%, 28%));
+  border-radius: 6px;
+}
+
+/* ── Chess notation (moves, index, variations) is always LTR ────────────── */
+.lpv__moves,
+.lpv__moves .move,
+.lpv__moves index,
+.lpv__moves variation {
+  direction: ltr;
+  text-align: left;
+}
+
+/* ── Comments are Farsi prose — RTL, italic, accent left-bar ────────────── */
+/* border-inline-start maps to the visual-right edge (inline-start) in RTL,  */
+/* which is the natural reading-start side for Farsi text.                   */
+.lpv__moves comment {
+  direction: rtl;
+  text-align: right;
+  font-style: italic;
+}
+.lpv__moves > comment {
+  /* LPV sets border-width:1px 0 (top+bottom).  We add an inline-start accent
+     stripe; logical properties respect direction so this lands on the right. */
+  border-inline-start: 3px solid var(--c-lpv-accent, #7986cb);
+  padding-inline-start: 0.75em;
+}
+
+/* ── Current comment: highlight the annotation for the active move ──────── */
+/* White moves (odd ply): LPV inserts button.move.empty before the comment.  */
+/* Black moves (even ply): comment immediately follows the move button.      */
+.lpv__moves .move.current + .move.empty + comment,
+.lpv__moves .move.current + comment {
+  background: color-mix(in srgb, var(--c-lpv-accent, #7986cb) 18%, var(--c-lpv-bg-movelist, hsl(232, 15%, 21%)));
+  color: var(--md-default-fg-color, #eee);
+  border-inline-start-width: 5px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+/* ── Controls: force LTR so button order stays [|◄  ◄  ⋮  ►  ►|] ────────── */
+/* Without this, the page RTL makes flex row reverse: Last appears leftmost.  */
+.lpv__controls {
+  direction: ltr;
+}
+
+/* ── Board container sizing: inherit the site's --chess-board-size var ──── */
+.lpv__board .cg-wrap {
+  /* pgn-viewer sets this to 100%; keep it — the .lpv grid controls width. */
+}
+
+/* ── When used as a static board (no controls / moves) ─────────────────── */
+.chess-widget.tutorial-board-widget .lpv {
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+/* ── Mobile annotation card (≤ 700 px) ─────────────────────────────────────── */
+
+/* 1. Force stacked layout at ≤ 700 px and add a 'comment' grid row.            */
+/*    LPV's own breakpoint is 450 px; we widen it so the cramped side column    */
+/*    at 451–700 px no longer forces a 432 px min-width horizontal scroll.      */
+@media (max-width: 700px) {
+  .lpv.lpv--moves-auto {
+    grid-template-areas:
+      'board'
+      'controls'
+      'comment'
+      'side';
+    grid-template-columns: minmax(200px, 1fr);
+    grid-template-rows: auto var(--controls-height) auto auto;
+  }
+
+  /* 2. Hide inline comments inside the moves panel — the card replaces them.  */
+  .lpv__moves > comment {
+    display: none;
+  }
+}
+
+/* 3. Annotation card — hidden by default, visible only at ≤ 700 px.           */
+.lpv__mobile-comment {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .lpv__mobile-comment {
+    display: block;
+    grid-area: comment;
+    background: var(--md-code-bg-color, hsl(232, 15%, 21%));
+    border-inline-start: 4px solid var(--c-lpv-accent, #7986cb);
+    border-radius: 6px;
+    margin: 0.4em 0.5em;
+    padding: 0.6em 0.9em;
+    /* Smooth text swap when user steps through moves */
+    transition: opacity 120ms;
+  }
+
+  .lpv__mobile-comment.is-empty {
+    /* Keep grid slot but show nothing to avoid layout flicker */
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  /* Move label: e.g. "12. O-O-O" or "12...Rxd7" */
+  .lpv__mobile-comment__move {
+    direction: ltr;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 0.85em;
+    color: var(--c-lpv-accent, #7986cb);
+    margin-block-end: 0.35em;
+  }
+
+  /* Comment prose: Farsi RTL italic */
+  .lpv__mobile-comment__text {
+    direction: rtl;
+    text-align: right;
+    font-style: italic;
+    line-height: 1.55;
+    font-size: 0.95em;
+    color: var(--md-default-fg-color, #eee);
+    transition: opacity 120ms;
+  }
+
+  .lpv__mobile-comment.is-empty .lpv__mobile-comment__text {
+    opacity: 0.45;
+  }
+}

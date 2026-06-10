@@ -1,0 +1,71 @@
+/* Vazirmatn font for Farsi UI */
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Apply Vazirmatn over Material's default body font for Farsi pages */
+:root {
+  --md-text-font: "Vazirmatn", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body,
+.md-typeset {
+  font-family: var(--md-text-font);
+}
+
+/* Chess notation reads LTR even on RTL pages */
+.move-list,
+.fen-display,
+.fen-input,
+.viewer-annotation-move {
+  direction: ltr;
+}
+
+/* Material's default content max-width is fine; widgets center themselves */
+.chess-widget-fallback {
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px dashed var(--md-default-fg-color--lightest);
+  border-radius: 4px;
+  margin: 1rem 0;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Practice page card grid */
+.practice-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+.practice-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--md-default-fg-color);
+  transition: border-color 0.15s, color 0.15s;
+}
+.practice-card:hover {
+  border-color: var(--md-accent-fg-color);
+  color: var(--md-accent-fg-color);
+}
+.practice-card span {
+  font-size: 0.8rem;
+  color: var(--md-default-fg-color--light);
+}

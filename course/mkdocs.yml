@@ -1,0 +1,63 @@
+site_name: آموزش گشایش
+site_description: گشایش‌های شطرنج را قدم به قدم بیاموزید — کنترل مرکز، توسعه مهره‌ها، ایمنی شاه
+docs_dir: docs
+site_dir: site
+
+copyright: >-
+  © کیارش فاضلی — محتوای تعاملی تحت مجوز GPL-3.0.
+  بازی‌های شرح‌داده‌شده برگرفته و اقتباس‌شده از Opening Compass اثر استاد بزرگ میخایلو اولکسیینکو.
+
+theme:
+  name: material
+  language: fa
+  direction: rtl
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: pink
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.expand
+    - navigation.footer
+    - search.suggest
+    - content.tooltips
+  font: false
+
+plugins:
+  - search
+  - macros:
+      module_name: macros
+      j2_comment_start_string: "{##"
+      j2_comment_end_string: "##}"
+
+markdown_extensions:
+  - attr_list
+
+extra_css:
+  - assets/css/site.css
+  - assets/widgets.css
+
+extra_javascript:
+  - assets/widgets.js
+
+nav:
+  - خانه: index.md
+  - آموزش‌ها:
+    - اصول گشایش:
+      - معرفی: tutorials/opening-principles/index.md
+      - ۱. کنترل مرکز: tutorials/opening-principles/01-center-control.md
+      - ۲. توسعه مهره‌ها: tutorials/opening-principles/02-development.md
+      - ۳. ایمنی شاه: tutorials/opening-principles/03-king-safety.md
+      - ۴. اتصال رخ‌ها: tutorials/opening-principles/04-rook-connection.md
+      - ۵. اشتباهات معمول: tutorials/opening-principles/05-common-mistakes.md
+      - ۶. بازی اپرا: tutorials/opening-principles/06-opera-game.md
+      - ۷. جوئوکو پیانو: tutorials/opening-principles/07-giuoco-piano.md
+      - ۸. خلاصه: tutorials/opening-principles/08-summary.md
+  - واژه‌نامه: glossary.md
+  - بازی با کامپیوتر: play.md
+  - تمرین گشایش: practice.md
+  - بازی محلی: play/local.md
+  - پازل: puzzle.md
+  - نمایش موقعیت: view.md

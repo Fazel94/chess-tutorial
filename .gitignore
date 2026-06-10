@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.vite/
+
+
+# MkDocs build output and Python environment
+course/site/
+course/.venv/
+course/__pycache__/
+**/__pycache__/
+**/*.pyc
+
+# Local credentials — never commit
+.envpgns/
